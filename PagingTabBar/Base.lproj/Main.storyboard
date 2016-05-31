@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ma4-bd-ZpO">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Parent View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ParentViewController" customModule="PagingTabBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JwO-dy-4Xr">
+                                <rect key="frame" x="0.0" y="104" width="600" height="496"/>
+                            </scrollView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="C1Z-hT-5iR" customClass="TopTabSegmentedControl" customModule="PagingTabBar" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="600" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9nW-N8-v3t"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                    <segment title="Third"/>
+                                </segments>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="barColor">
+                                        <color key="value" red="0.1019607843" green="0.63921568630000003" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                        <real key="value" value="14"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="fontColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shadow" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pageChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ipx-SE-kJe"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="C1Z-hT-5iR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="3pX-4a-OWR"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JwO-dy-4Xr" secondAttribute="bottom" id="AAi-4J-wyX"/>
+                            <constraint firstItem="JwO-dy-4Xr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Tas-Yn-P2H"/>
+                            <constraint firstItem="C1Z-hT-5iR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Was-9S-all"/>
+                            <constraint firstAttribute="trailing" secondItem="JwO-dy-4Xr" secondAttribute="trailing" id="qE1-Sx-gPC"/>
+                            <constraint firstItem="JwO-dy-4Xr" firstAttribute="top" secondItem="C1Z-hT-5iR" secondAttribute="bottom" id="ttS-uz-zwQ"/>
+                            <constraint firstAttribute="trailing" secondItem="C1Z-hT-5iR" secondAttribute="trailing" id="zP5-0V-oe0"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="hDR-3Q-XHQ"/>
+                    <connections>
+                        <outlet property="scrollView" destination="JwO-dy-4Xr" id="dtQ-TH-LaP"/>
+                        <outlet property="topTabSegmentedControl" destination="C1Z-hT-5iR" id="UhP-xM-rCh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1051" y="980"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="6f6-BE-UYe">
+            <objects>
+                <viewController storyboardIdentifier="Second" id="URn-I5-wvH" customClass="SecondViewController" customModule="PagingTabBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pjn-Rb-k5G"/>
+                        <viewControllerLayoutGuide type="bottom" id="TTu-6p-dnw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mx5-3r-YIq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="0.75686274509999996" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LXK-BI-abK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1051" y="1663"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="83O-Xy-DEQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ma4-bd-ZpO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GHM-Cg-A8W">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1019607843" green="0.63921568630000003" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="MSo-GV-MAu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qaw-Xt-vLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="397" y="980"/>
+        </scene>
+        <!--Third View Controller-->
+        <scene sceneID="zw1-gP-qWL">
+            <objects>
+                <viewController storyboardIdentifier="Third" id="Sgz-yu-1o4" customClass="ThirdViewController" customModule="PagingTabBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="szi-14-sFy"/>
+                        <viewControllerLayoutGuide type="bottom" id="ksn-Wd-PKL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SCH-QB-zyh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93333333330000001" green="0.2784313725" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5gB-iq-fqI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1673" y="1663"/>
+        </scene>
+        <!--First Table View Controller-->
+        <scene sceneID="jPc-vB-lWi">
+            <objects>
+                <viewController storyboardIdentifier="First" id="Yqm-WN-CH3" customClass="FirstTableViewController" customModule="PagingTabBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ub9-FT-9ev"/>
+                        <viewControllerLayoutGuide type="bottom" id="6GZ-VG-StN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lej-Bg-N3i">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="utn-wW-bPr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="utn-wW-bPr" firstAttribute="top" secondItem="Lej-Bg-N3i" secondAttribute="top" id="MHE-ie-7kQ"/>
+                            <constraint firstItem="utn-wW-bPr" firstAttribute="leading" secondItem="Lej-Bg-N3i" secondAttribute="leading" id="dVc-lH-5U9"/>
+                            <constraint firstAttribute="trailing" secondItem="utn-wW-bPr" secondAttribute="trailing" id="mwE-gz-n4o"/>
+                            <constraint firstItem="6GZ-VG-StN" firstAttribute="top" secondItem="utn-wW-bPr" secondAttribute="bottom" id="p3U-P1-rAc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="utn-wW-bPr" id="e9E-SE-zmP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7y4-7Q-JMy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="429" y="1663"/>
+        </scene>
+    </scenes>
+</document>
