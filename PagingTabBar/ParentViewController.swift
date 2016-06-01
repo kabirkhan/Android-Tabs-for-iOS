@@ -8,41 +8,23 @@
 
 import UIKit
 
-class ParentViewController: UIViewController {
-    
-  @IBOutlet private weak var scrollView: UIScrollView!
-  @IBOutlet private weak var topTabSegmentedControl: TopTabSegmentedControl!
+public class ParentViewController: UIViewController {
   
-  private var pages = [UIViewController]()
+  @IBOutlet public weak var scrollView: UIScrollView!
+  @IBOutlet public weak var topTabSegmentedControl: TopTabSegmentedControl!
+  
+  public var storyBoardIdentifiers = ["First", "Second"]
+
   private var views = [String: UIView]()
   private let segmentView = UIView()
   
-  private lazy var firstChildTabVC : UIViewController? = {
-    let firstChildTabVC = self.storyboard?.instantiateViewControllerWithIdentifier("First")
-    return firstChildTabVC
-  }()
-  
-  private lazy var secondChildTabVC : UIViewController? = {
-    let secondChildTabVC = self.storyboard?.instantiateViewControllerWithIdentifier("Second")
-    return secondChildTabVC
-  }()
-  
-  private lazy var thirdChildTabVC : UIViewController? = {
-    let thirdChildTabVC = self.storyboard?.instantiateViewControllerWithIdentifier("Third")
-    return thirdChildTabVC
-  }()
-  
-  private enum TabIndex : Int {
-    case FirstChildTab = 0
-    case SecondChildTab = 1
-    case ThirdChildTab = 2
-  }
-  
-  private func setupViewController(viewController: UIViewController) {
+  private func setupChildViewController(storyBoardIdentifier identifier: String) -> UIViewController {
+    guard let viewController = storyboard?.instantiateViewControllerWithIdentifier(identifier) else { return UIViewController() }
     viewController.view.translatesAutoresizingMaskIntoConstraints = false
     scrollView.addSubview(viewController.view)
     addChildViewController(viewController)
     viewController.didMoveToParentViewController(self)
+    return viewController
   }
   
   private func setTitle() -> String? {
@@ -50,10 +32,10 @@ class ParentViewController: UIViewController {
   }
   
   private struct Ratios {
-    static let segmentViewHeightToSegmentControl: CGFloat = 10
+    static let segmentViewHeightToSegmentControlHeight: CGFloat = 15
   }
-
-  override func viewDidLoad() {
+  
+  override public func viewDidLoad() {
     super.viewDidLoad()
     
     scrollView.delegate = self
@@ -62,26 +44,30 @@ class ParentViewController: UIViewController {
     title = setTitle()
     
     // Setup animated segment view
-    segmentView.frame = CGRectMake(topTabSegmentedControl.bounds.minX, topTabSegmentedControl.bounds.maxY - topTabSegmentedControl.bounds.height / Ratios.segmentViewHeightToSegmentControl, view.bounds.width / 3, topTabSegmentedControl.bounds.height / Ratios.segmentViewHeightToSegmentControl)
+    segmentView.frame = CGRectMake(topTabSegmentedControl.bounds.minX, topTabSegmentedControl.bounds.maxY - topTabSegmentedControl.bounds.height / Ratios.segmentViewHeightToSegmentControlHeight, view.bounds.width / CGFloat(storyBoardIdentifiers.count), topTabSegmentedControl.bounds.height / Ratios.segmentViewHeightToSegmentControlHeight)
     segmentView.backgroundColor = UIColor.materialAmberAccent
+    segmentView.layer.cornerRadius = 2.0
     topTabSegmentedControl.addSubview(segmentView)
     
     // Setup Segmented Control
     topTabSegmentedControl.initUI()
-    topTabSegmentedControl.selectedSegmentIndex = TabIndex.FirstChildTab.rawValue
+    topTabSegmentedControl.selectedSegmentIndex = 0
     
     // Setup Navbar
     navigationController?.navigationBar.removeShadowOnBottomOfBarAndSetColorWith(UIColor.materialMainGreen)
     navigationController?.navigationBar.setNavbarFonts()
     
-    // Unwrap Instantiated ViewControllers
-    if let page1 = firstChildTabVC, page2 = secondChildTabVC, page3 = thirdChildTabVC {
-      setupViewController(page1)
-      setupViewController(page2)
-      setupViewController(page3)
-      pages = [page1, page2, page3]
-      views = ["view": scrollView, "page1": page1.view, "page2": page2.view, "page3": page3.view]
+    // Instantiate ViewControllers and Horizontal Constraints based on number of ViewControllers
+    views = ["view": scrollView]
+    
+    var horizontalConstraintsString = "H:|"
+    
+    for i in storyBoardIdentifiers.range() {
+      views["page\(i + 1)"] = setupChildViewController(storyBoardIdentifier: storyBoardIdentifiers[i]).view
+      horizontalConstraintsString += "[page\(i + 1)(==view)]"
     }
+    
+    horizontalConstraintsString += "|"
     
     // Setup view constraints to all fit in scrollView
     let verticalConstraints =
@@ -91,7 +77,8 @@ class ParentViewController: UIViewController {
     
     let horizontalConstraints =
       NSLayoutConstraint.constraintsWithVisualFormat(
-        "H:|[page1(==view)][page2(==view)][page3(==view)]|", options: [.AlignAllTop, .AlignAllBottom], metrics: nil, views: views)
+        horizontalConstraintsString, options: [.AlignAllTop, .AlignAllBottom], metrics: nil, views: views)
+    
     NSLayoutConstraint.activateConstraints(horizontalConstraints)
   }
   
@@ -101,26 +88,35 @@ class ParentViewController: UIViewController {
     let pageWidth = CGRectGetWidth(scrollView.bounds)
     let targetContentOffsetX = CGFloat(currentPage) * pageWidth
     
-    UIView.animateWithDuration(0.33, delay: 0, options: .CurveEaseInOut, animations: { () -> Void in
-      self.scrollView.contentOffset.x = targetContentOffsetX
-      self.segmentView.frame.origin.x = targetContentOffsetX / 3
-    }, completion: { (success) in
-        self.title = self.setTitle()
+    UIView.animateWithDuration(0.33, delay: 0, options: .CurveEaseInOut, animations: { [unowned _self = self] in
+      _self.scrollView.contentOffset.x = targetContentOffsetX
+      _self.segmentView.frame.origin.x = targetContentOffsetX / CGFloat(_self.storyBoardIdentifiers.count)
+    }, completion: { [unowned _self = self] (success) in
+        _self.title = _self.setTitle()
     })
+  }
+}
+
+extension Int {
+  public func range() -> Range<Int> {
+    return 0..<self
+  }
+}
+
+extension Array {
+  public func range() -> Range<Int> {
+    return self.count.range()
   }
 }
 
 // User scrolls, update page and segment view
 extension ParentViewController: UIScrollViewDelegate {
-  func scrollViewDidScroll(scrollView: UIScrollView) {
+  public func scrollViewDidScroll(scrollView: UIScrollView) {
     let pageWidth = CGRectGetWidth(scrollView.bounds)
     let pageFraction = scrollView.contentOffset.x / pageWidth
     
     topTabSegmentedControl.selectedSegmentIndex = Int(round(pageFraction))
-    segmentView.frame.origin.x = (scrollView.contentOffset.x
-      ) / 3
+    segmentView.frame.origin.x = (scrollView.contentOffset.x) / CGFloat(storyBoardIdentifiers.count)
     title = setTitle()
   }
 }
-
-
